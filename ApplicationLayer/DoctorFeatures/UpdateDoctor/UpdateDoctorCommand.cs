@@ -1,0 +1,16 @@
+﻿using MediatR;
+
+namespace DentalClinicManagement.ApplicationLayer.DoctorFeatures.UpdateDoctor
+{
+    public class UpdateDoctorCommand : IRequest<UpdateDoctorResponse>
+    {
+        public Guid Id { get; set; }
+        public string? FullName { get; set; }
+        public string? WorkingTime { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Specialization { get; set; }
+        public bool? IsActive { get; set; }
+        public string? ColorCode { get; set; }
+    }
+}

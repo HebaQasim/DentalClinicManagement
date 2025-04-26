@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DentalClinicManagement.ApiLayer.DTOs.CustomerServiceDTOs;
+using DentalClinicManagement.ApplicationLayer.Common.ChangePassword;
 using DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCustomerService;
 using DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.UpdateCustomerService;
 using DentalClinicManagement.DomainLayer.Entities;
@@ -15,6 +16,8 @@ namespace DentalClinicManagement.ApplicationLayer.Mapping
             CreateMap<CustomerService, GetCustomerServiceDto>();
             CreateMap<UpdateCustomerServiceCommand, CustomerService>()
                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ChangePasswordCommand, CustomerService>()
+           .ForMember(dest => dest.Password, opt => opt.Ignore());
 
         }
 

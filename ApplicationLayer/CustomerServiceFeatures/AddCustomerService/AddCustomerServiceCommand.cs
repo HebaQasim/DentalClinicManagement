@@ -4,8 +4,8 @@ namespace DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCus
 {
     public class AddCustomerServiceCommand : IRequest<Guid>
     {
-        public string FirstName { get; init; }
-        public string LastName { get; init; }
+        public string FullName { get; init; }
+        public string WorkingTime { get; init; }
         public string Email { get; init; }
         public string PhoneNumber { get; init; }
     }

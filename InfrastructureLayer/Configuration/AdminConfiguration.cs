@@ -12,13 +12,11 @@ namespace DentalClinicManagement.InfrastructureLayer.Configuration
 
             builder.HasKey(a => a.Id);
 
-            builder.Property(a => a.FirstName)
+            builder.Property(a => a.FullName)
                    .IsRequired()
-                   .HasMaxLength(50);
+                   .HasMaxLength(100);
 
-            builder.Property(a => a.LastName)
-                   .IsRequired()
-                   .HasMaxLength(50);
+          
 
             builder.Property(a => a.Email)
                    .IsRequired()
@@ -41,13 +39,14 @@ namespace DentalClinicManagement.InfrastructureLayer.Configuration
             builder.HasData(new Admin
             {
                 Id = new Guid("ce93f771-e6b7-46b8-af59-66251bc1998f"),
-                FirstName = "Admin",
-                LastName = "Admin",
+                FullName = "Admin Admin",
+
                 Email = "hebaalqerem2003@gmail.com",
-                Password = "AQAAAAIAAYagAAAAEBUw0I4lTSGxDbeOl5dKGrDzf6rdHkGf4deUAiwvwOXIlSrQHyidITXkAH92YI2qIg==", // Hashed Password
+                Password = "AQAAAAIAAYagAAAAEHaUqvcZ+BpXxXVzx9NB0pL04Bw6GpB2NmTDvrgQZKPujC3LSHpXl/9h1IUHmiK2Fg==", // Hashed Password
                 PhoneNumber = "1234567890",
                 RoleId = adminRoleId
             });
+
         }
     }
 }

@@ -12,13 +12,12 @@ namespace DentalClinicManagement.InfrastructureLayer.Configuration
 
             builder.HasKey(cs => cs.Id);
 
-            builder.Property(cs => cs.FirstName)
+            builder.Property(cs => cs.FullName)
                    .IsRequired()
-                   .HasMaxLength(50);
+                   .HasMaxLength(100);
 
-            builder.Property(cs => cs.LastName)
-                   .IsRequired()
-                   .HasMaxLength(50);
+            builder.Property(d => d.WorkingTime)
+                 .HasMaxLength(300);
 
             builder.Property(cs => cs.Email)
                    .IsRequired()

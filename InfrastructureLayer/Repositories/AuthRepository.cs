@@ -29,24 +29,44 @@ namespace DentalClinicManagement.InfrastructureLayer.Repositories
             string email, string password, CancellationToken cancellationToken = default)
         {
             // Check the admin table 
-            var admin = await _context.Admins.FirstOrDefaultAsync(a => a.Email == email, cancellationToken);
+            var admin = await _context.Admins.Include(a => a.Role) // ✅ Ensure Role is loaded
+        .FirstOrDefaultAsync(a => a.Email == email, cancellationToken);
+
             if (admin is not null && _adminPasswordHasher.VerifyHashedPassword(admin, admin.Password, password) == PasswordVerificationResult.Success)
             {
                 return (admin, "Admin");
             }
 
             // Check the doctors table 
-            var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.Email == email, cancellationToken);
-            if (doctor is not null && _doctorPasswordHasher.VerifyHashedPassword(doctor, doctor.Password, password) == PasswordVerificationResult.Success)
+            var doctor = await _context.Doctors.Include(d => d.Role) // ✅ Ensure Role is loaded
+        .FirstOrDefaultAsync(d => d.Email == email, cancellationToken);
+            if (doctor is not null)
             {
-                return (doctor, "Doctor");
+                if (!doctor.IsActive)
+                {
+                    throw new UnauthorizedAccessException("Your account is deactivated. Please contact support.");
+                }
+
+                if (_doctorPasswordHasher.VerifyHashedPassword(doctor, doctor.Password, password) == PasswordVerificationResult.Success)
+                {
+                    return (doctor, "Doctor");
+                }
             }
 
             // Check CustomerService table 
-            var customerService = await _context.CustomerServices.FirstOrDefaultAsync(cs => cs.Email == email, cancellationToken);
-            if (customerService is not null && _csPasswordHasher.VerifyHashedPassword(customerService, customerService.Password, password) == PasswordVerificationResult.Success)
+            var customerService = await _context.CustomerServices.Include(cs => cs.Role) // ✅ Ensure Role is loaded
+        .FirstOrDefaultAsync(cs => cs.Email == email, cancellationToken);
+            if (customerService is not null)
             {
-                return (customerService, "CustomerService");
+                if (!customerService.IsActive)
+                {
+                    throw new UnauthorizedAccessException("Your account is deactivated. Please contact support.");
+                }
+
+                if (_csPasswordHasher.VerifyHashedPassword(customerService, customerService.Password, password) == PasswordVerificationResult.Success)
+                {
+                    return (customerService, "CustomerService");
+                }
             }
 
             return null;

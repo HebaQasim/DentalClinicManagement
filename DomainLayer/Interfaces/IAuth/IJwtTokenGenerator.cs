@@ -4,6 +4,6 @@ namespace DentalClinicManagement.DomainLayer.Interfaces.IAuth
 {
     public interface IJwtTokenGenerator
     {
-        JwtToken Generate(object user, string role);
+        JwtToken Generate(object user);
     }
 }

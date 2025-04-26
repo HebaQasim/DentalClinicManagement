@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DentalClinicManagement.ApiLayer.DTOs.Auth;
 using DentalClinicManagement.ApplicationLayer.Common.ChangePassword;
+using DentalClinicManagement.ApplicationLayer.Common.ForgotPassword;
 using DentalClinicManagement.ApplicationLayer.Common.Login;
+using DentalClinicManagement.ApplicationLayer.Common.ResetPassword;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,12 +35,25 @@ namespace DentalClinicManagement.ApiLayer.Controllers
 
             return Ok(await mediator.Send(loginCommand, cancellationToken));
         }
-        [HttpPatch("changePassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+        //[HttpPatch("changePassword")]
+        //public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+        //{
+        //    await mediator.Send(command);
+        //    return Ok(new { message = "Password changed successfully" });
+        //}
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
         {
             await mediator.Send(command);
-            return Ok(new { message = "Password changed successfully" });
+            return Ok("Reset password link has been sent to your email.");
         }
 
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)
+        {
+            await mediator.Send(command);
+            return Ok("Password has been reset successfully.");
+        }
     }
 }

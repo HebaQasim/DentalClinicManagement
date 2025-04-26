@@ -13,13 +13,11 @@ namespace DentalClinicManagement.SharedLayer.Validation.CustomerServiceValidatio
         {
             _context = context;
 
-            RuleFor(cs => cs.FirstName)
-                .NotEmpty().WithMessage("First name is required.")
+            RuleFor(cs => cs.FullName)
+                .NotEmpty().WithMessage("Full name is required.")
                 .MaximumLength(50).WithMessage("First name cannot exceed 50 characters.");
 
-            RuleFor(cs => cs.LastName)
-                .NotEmpty().WithMessage("Last name is required.")
-                .MaximumLength(50).WithMessage("Last name cannot exceed 50 characters.");
+           
 
             RuleFor(cs => cs.Email)
                 .NotEmpty().WithMessage("Email is required.")

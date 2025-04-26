@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using DentalClinicManagement.ApiLayer.Services;
 using DentalClinicManagement.DomainLayer.Entities;
 using DentalClinicManagement.DomainLayer.Interfaces.IRepository;
 using DentalClinicManagement.DomainLayer.Interfaces.IServices;
+using DentalClinicManagement.DomainLayer.Models;
+using DentalClinicManagement.InfrastructureLayer.Repositories;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Authentication;
 
 namespace DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCustomerService
 {
@@ -16,6 +20,8 @@ namespace DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCus
         private readonly IPasswordGenerator _passwordGenerator;
         private readonly IMapper _mapper;
         private readonly IValidator<AddCustomerServiceCommand> _validator;
+        private readonly IUserContext _userContext;
+        private readonly IAdminRepository _adminRepository;
 
         public AddCustomerServiceCommandHandler(
             ICustomerServiceRepository customerServiceRepository,
@@ -23,7 +29,9 @@ namespace DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCus
             IEmailService emailService,
             IPasswordGenerator passwordGenerator,
             IMapper mapper,
-            IValidator<AddCustomerServiceCommand> validator)
+            IValidator<AddCustomerServiceCommand> validator,
+            IUserContext userContext,
+            IAdminRepository adminRepository)
         {
             _customerServiceRepository = customerServiceRepository;
             _passwordHasher = passwordHasher;
@@ -31,10 +39,20 @@ namespace DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCus
             _passwordGenerator = passwordGenerator;
             _mapper = mapper;
             _validator = validator;
+            _userContext = userContext;
+            _adminRepository = adminRepository;
         }
 
         public async Task<Guid> Handle(AddCustomerServiceCommand request, CancellationToken cancellationToken)
         {
+            if (!await _adminRepository.ExistsByIdAsync(_userContext.Id, cancellationToken))
+            {
+                throw new KeyNotFoundException($"Admin not found.");
+            }
+            if (_userContext.Role != UserRoles.Admin)
+            {
+                throw new AuthenticationException("Access denied. Only an admin can update admin data.");
+            }
             // Validate request
             await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
@@ -51,9 +69,9 @@ namespace DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCus
 
             // Send email
             await _emailService.SendEmailAsync(request.Email, "Welcome to Dental Clinic",
-                $"Dear {request.FirstName} {request.LastName},\n\n" +
+                $"Dear  {request.FullName},\n\n" +
                 "We are delighted to welcome you to the Dental Clinic family! " +
-                "Your account has been successfully created, and you can now log in using the details below:\n\n" +
+                "Your Customer Service account has been successfully created, and you can now log in using the details below:\n\n" +
                 $"Email: {request.Email}\n" +
                 $"Password: {password}\n\n" +
                 "If you have any questions, feel free to contact our support team.\n\n" +
