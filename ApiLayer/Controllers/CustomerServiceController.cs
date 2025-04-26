@@ -6,6 +6,8 @@ using DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.AddCustome
 using DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.UpdateCustomerService;
 using DentalClinicManagement.ApiLayer.DTOs.CustomerServiceDTOs;
 using DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.GetCustomerService;
+using DentalClinicManagement.ApplicationLayer.Common.ChangePassword;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DentalClinicManagement.ApiLayer.Controllers
 {
@@ -43,7 +45,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
         }
 
         [HttpGet]
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<GetCustomerServiceDto>>> GetAllCustomerService()
         {
             var result = await mediator.Send(new GetAllCustomerServicesCommand());
@@ -58,14 +60,36 @@ namespace DentalClinicManagement.ApiLayer.Controllers
 
             return Ok(secretary);
         }
+        // [Authorize(Roles = "Admin")]
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateCustomerService(Guid id, [FromBody] UpdateCustomerServiceCommand command)
         {
             command.Id = id;
-
             var result = await mediator.Send(command);
-            return result ? Ok("Customer Service updated successfully") : NotFound("Customer Service not found");
-        }
 
+            if (!result.Success)
+                return NotFound("Customer Service not found");
+
+            if (!string.IsNullOrEmpty(result.WarningMessage))
+            {
+                return Ok(new
+                {
+                    message = "Customer Service updated successfully",
+                    warning = result.WarningMessage
+                });
+            }
+
+            return Ok("Customer Service updated successfully");
+        }
+        [Authorize(Roles = "CustomerService")]
+        [HttpPatch("changePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+        {
+            var response = await mediator.Send(command);
+            if (!response.Success)
+                return BadRequest(response.WarningMessage);
+
+            return Ok(new { Message = response.WarningMessage, RequireReLogin = response.RequireReLogin });
+        }
     }
 }

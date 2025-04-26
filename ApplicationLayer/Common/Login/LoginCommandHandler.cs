@@ -32,10 +32,10 @@ namespace DentalClinicManagement.ApplicationLayer.Common.Login
 
             //var (user, role) = authResult;
             var user = authResult.User;
-            var role = authResult.Role;
+           // var role = authResult.Role;
 
             // Token generation based on role
-            var token = _jwtTokenGenerator.Generate(user, role);
+            var token = _jwtTokenGenerator.Generate(user);
 
 
             return _mapper.Map<LoginResponse>(token);

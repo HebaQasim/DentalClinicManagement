@@ -20,6 +20,19 @@ namespace DentalClinicManagement.InfrastructureLayer.Repositories
 
             return role == null ? throw new InvalidOperationException("Customer Service role not found.") : role.Id;
         }
+        public async Task<bool> ExistsByEmailAsync(string email,
+     CancellationToken cancellationToken = default)
+        {
+            return await _context.CustomerServices.AnyAsync(u => u.Email == email, cancellationToken);
+        }
+
+        public async Task<bool> ExistsByIdAsync(Guid id,
+          CancellationToken cancellationToken = default)
+        {
+            return await _context.CustomerServices
+              .AnyAsync(u => u.Id == id, cancellationToken);
+        }
+
         public async Task AddCustomerServiceAsync(CustomerService customerService, CancellationToken cancellationToken)
         {
             await _context.CustomerServices.AddAsync(customerService, cancellationToken);
@@ -42,6 +55,12 @@ namespace DentalClinicManagement.InfrastructureLayer.Repositories
         {
             _context.CustomerServices.Update(customerService);
             await _context.SaveChangesAsync();
+        }
+        public async Task<CustomerService?> GetByEmailAsync(string email)
+        {
+            return await _context.CustomerServices
+                .Include(d => d.Role)
+                .FirstOrDefaultAsync(d => d.Email.ToLower() == email.ToLower());
         }
 
     }
