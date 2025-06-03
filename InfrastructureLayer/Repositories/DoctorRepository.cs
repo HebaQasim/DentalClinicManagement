@@ -94,6 +94,12 @@ namespace DentalClinicManagement.InfrastructureLayer.Repositories
                 .Include(d => d.Role)
                 .FirstOrDefaultAsync(d => d.Email.ToLower() == email.ToLower());
         }
-
+        public async Task<List<Doctor>> SearchDoctorsAsync(string? name, string? phoneNumber, CancellationToken cancellationToken)
+        {
+            return await _context.Doctors
+                .Where(d => (string.IsNullOrEmpty(name) || d.FullName.Contains(name)) &&
+                            (string.IsNullOrEmpty(phoneNumber) || d.PhoneNumber.Contains(phoneNumber)))
+                .ToListAsync(cancellationToken);
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace DentalClinicManagement.ApplicationLayer.Common.ForgotPassword
             _doctorRepository = doctorRepository;
             _customerServiceRepository = customerServiceRepository;
 
+
         }
 
         public async Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)

@@ -53,12 +53,12 @@ namespace DentalClinicManagement.ApplicationLayer.DoctorFeatures.UpdateDoctor
             }
             if (_userContext.Role != UserRoles.Admin)
             {
-                throw new AuthenticationException("Access denied. Only an admin can update admin data.");
+                throw new AuthenticationException("Access denied. Only an admin can update doctor data.");
             }
             await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
             var doctor = await _doctorRepository.GetDoctorByIdAsync(request.Id);
-            if (doctor == null) return new UpdateDoctorResponse { Success = false, WarningMessage = "Customer Service not found" };
+            if (doctor == null) return new UpdateDoctorResponse { Success = false, WarningMessage = "Doctor not found" };
 
             bool wasActive = doctor.IsActive;
             bool isNowActive = request.IsActive ?? doctor.IsActive;

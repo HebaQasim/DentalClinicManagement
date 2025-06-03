@@ -21,6 +21,7 @@ namespace DentalClinicManagement.DomainLayer.Interfaces.IRepository
           CancellationToken cancellationToken = default);
         Task<List<Doctor>> GetAllDoctorsAsync(CancellationToken cancellationToken);
         Task<Doctor?> GetByEmailAsync(string email);
+        Task<List<Doctor>> SearchDoctorsAsync(string? name, string? phoneNumber, CancellationToken cancellationToken);
 
     }
 }

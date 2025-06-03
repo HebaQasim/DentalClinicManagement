@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 using DentalClinicManagement.ApiLayer.Extensions;
 using DentalClinicManagement.ApplicationLayer.DoctorFeatures.GetDoctor.AddDoctorWithPaginationInTwoMethods;
 using DentalClinicManagement.ApplicationLayer.DoctorFeatures.GetDoctor.GetAllDoctorsWithoutPagination;
+using DentalClinicManagement.ApplicationLayer.DoctorFeatures.SearchDoctor;
+using DentalClinicManagement.ApplicationLayer.DoctorFeatures.DoctorFilter;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace DentalClinicManagement.ApiLayer.Controllers
 {
@@ -29,7 +32,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> AddDoctor(AddDoctorRequest request)
         {
@@ -39,7 +42,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteDoctor(Guid id)
         {
             var command = new DeleteDoctorCommand(id);
@@ -70,6 +73,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
 
         //    return Ok(result.Items);
         //}
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllDoctors(CancellationToken cancellationToken)
         {
@@ -84,6 +88,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
 
             return Ok(doctor);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateDoctor(Guid id, [FromBody] UpdateDoctorCommand command)
         {
@@ -114,6 +119,26 @@ namespace DentalClinicManagement.ApiLayer.Controllers
 
             return Ok(new { Message = response.WarningMessage, RequireReLogin = response.RequireReLogin });
         }
+        [Authorize(Roles = "Admin")]
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchDoctors([FromQuery] string? name, [FromQuery] string? phoneNumber)
+        {
+            var query = new GetDoctorByNameOrPhoneCommand
+            {
+                Name = name,
+                PhoneNumber = phoneNumber
+            };
 
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+         [Authorize(Roles = "Admin")]
+        [HttpGet("filter")]
+        public async Task<IActionResult> FilterBySpecialization([FromQuery] string specialization)
+        {
+            var query = new GetDoctorsBySpecializationCommand { Specialization = specialization };
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

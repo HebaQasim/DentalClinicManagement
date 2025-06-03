@@ -51,7 +51,7 @@ namespace DentalClinicManagement.ApplicationLayer.DoctorFeatures.AddDoctor
             }
             if (_userContext.Role != UserRoles.Admin)
             {
-                throw new AuthenticationException("Access denied. Only an admin can update admin data.");
+                throw new AuthenticationException("Access denied. Only an admin can add doctor.");
             }
             // Validate request
             await _validator.ValidateAndThrowAsync(request, cancellationToken);

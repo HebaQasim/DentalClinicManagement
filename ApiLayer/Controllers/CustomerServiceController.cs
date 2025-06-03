@@ -24,7 +24,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
             this.mapper = mapper;
         }
         [HttpPost]
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddCustomerService(AddCustomerServiceRequest request)
         {
             var command = mapper.Map<AddCustomerServiceCommand>(request);
@@ -32,7 +32,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
             return Ok(new { CustomerServiceId = customerServiceId });
         }
         [HttpDelete("{id}")]
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCustomerService(Guid id)
         {
             var command = new DeleteCustomerServiceCommand(id);
@@ -60,7 +60,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
 
             return Ok(secretary);
         }
-        // [Authorize(Roles = "Admin")]
+         [Authorize(Roles = "Admin")]
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateCustomerService(Guid id, [FromBody] UpdateCustomerServiceCommand command)
         {

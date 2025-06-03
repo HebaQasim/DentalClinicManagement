@@ -43,6 +43,7 @@ builder.Services.AddScoped<ICustomerServiceRepository, CustomerServiceRepository
 builder.Services.AddScoped<IDoctorRepository,DoctorRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IPasswordResetTokenRepository, PasswordResetTokenRepository>();
+builder.Services.AddScoped<ITreatmentRepository, TreatmentRepository>();
 
 //Add Pagination Service
 builder.Services.AddScoped(typeof(IPagination<>), typeof(PaginationRepository<>));

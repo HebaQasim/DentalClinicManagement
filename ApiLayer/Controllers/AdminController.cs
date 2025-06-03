@@ -5,10 +5,12 @@ using DentalClinicManagement.ApplicationLayer.AdminFeatures.UpdateAdmin;
 using DentalClinicManagement.ApplicationLayer.Common.ChangePassword;
 using DentalClinicManagement.ApplicationLayer.CustomerServiceFeatures.UpdateCustomerService;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DentalClinicManagement.ApiLayer.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/admin")]
     [ApiController]
     public class AdminController : Controller
