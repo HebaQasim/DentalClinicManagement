@@ -50,192 +50,318 @@ A modern web-based Dental Clinic Management System designed to streamline and di
 {
   "email": "user@example.com",
   "password": "string"
-}
+}  
+
+
+## 🔐 Authentication
+
+### POST `/api/auth/login`
+Logs in the user and returns a JWT token.
 
 **Response**
+```json
+{
+  "token": "jwt-token-value"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "token": "jwt-token-value"  }   `
+---
 
-### POST /api/auth/forgot-password
-
+### POST `/api/auth/forgot-password`
 Sends a reset link to user's email.
 
 **Request**
+```json
+{
+  "email": "user@example.com"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "email": "user@example.com"  }   `
+---
 
-### POST /api/auth/reset-password
-
+### POST `/api/auth/reset-password`
 Resets the password using a valid token.
 
 **Request**
+```json
+{
+  "token": "reset-token",
+  "newPassword": "string",
+  "confirmPassword": "string"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "token": "reset-token",    "newPassword": "string",    "confirmPassword": "string"  }   `
+---
 
-👑 Admin
---------
+## 👑 Admin
 
-### GET /api/admin/profile
-
+### GET `/api/admin/profile`
 Retrieves current admin profile.
 
 **Response**
+```json
+{
+  "id": "guid",
+  "fullName": "string",
+  "email": "string",
+  "phoneNumber": "string"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "id": "guid",    "fullName": "string",    "email": "string",    "phoneNumber": "string"  }   `
+---
 
-### PATCH /api/admin/{id}
-
+### PATCH `/api/admin/{id}`
 Updates admin info.
 
 **Request**
+```json
+{
+  "fullName": "string",
+  "email": "string",
+  "phoneNumber": "string"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "fullName": "string",    "email": "string",    "phoneNumber": "string"  }   `
+---
 
-### PATCH /api/admin/changePassword
-
+### PATCH `/api/admin/changePassword`
 Changes the admin's password.
 
 **Request**
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "currentPassword": "string",    "newPassword": "string"  }   `
+```json
+{
+  "currentPassword": "string",
+  "newPassword": "string"
+}
+```
 
 **Response**
+```json
+{
+  "message": "Password changed successfully",
+  "requireReLogin": true
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "message": "Password changed successfully",    "requireReLogin": true  }   `
+---
 
-👩‍💼 Customer Service
-----------------------
+## 👩‍💼 Customer Service
 
-### POST /api/customerService
-
-Adds a new customer service user. _(Admin only)_
+### POST `/api/customerService`
+Adds a new customer service user. (Admin only)
 
 **Request**
+```json
+{
+  "fullName": "string",
+  "workingTime": "string",
+  "email": "string",
+  "phoneNumber": "string"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "fullName": "string",    "workingTime": "string",    "email": "string",    "phoneNumber": "string"  }   `
+---
 
-### GET /api/customerService
-
+### GET `/api/customerService`
 Retrieves all customer service users.
 
 **Response**
+```json
+[
+  {
+    "id": "guid",
+    "fullName": "string",
+    "workingTime": "string",
+    "email": "string",
+    "phoneNumber": "string",
+    "isActive": true
+  }
+]
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit[    {      "id": "guid",      "fullName": "string",      "workingTime": "string",      "email": "string",      "phoneNumber": "string",      "isActive": true    }  ]   `
+---
 
-### GET /api/customerService/{id}
-
+### GET `/api/customerService/{id}`
 Gets details for a specific customer service user.
 
-### PATCH /api/customerService/{id}
+---
 
+### PATCH `/api/customerService/{id}`
 Updates a customer service user.
 
-### DELETE /api/customerService/{id}
+---
 
+### DELETE `/api/customerService/{id}`
 Deletes a customer service user.
 
-### PATCH /api/customerService/changePassword
+---
 
+### PATCH `/api/customerService/changePassword`
 Changes password (CustomerService role only).
 
 **Request**
+```json
+{
+  "currentPassword": "string",
+  "newPassword": "string"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "currentPassword": "string",    "newPassword": "string"  }   `
+---
 
-👨‍⚕️ Doctor
-------------
+## 👨‍⚕️ Doctor
 
-### POST /api/doctor
-
-Adds a new doctor. _(Admin only)_
+### POST `/api/doctor`
+Adds a new doctor. (Admin only)
 
 **Request**
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "fullName": "string",    "workingTime": "string",    "email": "string",    "phoneNumber": "string",    "specialization": "string",    "colorCode": "#RRGGBB"  }   `
+```json
+{
+  "fullName": "string",
+  "workingTime": "string",
+  "email": "string",
+  "phoneNumber": "string",
+  "specialization": "string",
+  "colorCode": "#RRGGBB"
+}
+```
 
 **Response**
+```json
+{
+  "doctorId": "guid"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "doctorId": "guid"  }   `
+---
 
-### GET /api/doctor
-
+### GET `/api/doctor`
 Retrieves all doctors.
 
 **Response**
+```json
+[
+  {
+    "id": "guid",
+    "fullName": "string",
+    "workingTime": "string",
+    "email": "string",
+    "phoneNumber": "string",
+    "specialization": "string",
+    "isActive": true,
+    "colorCode": "#RRGGBB"
+  }
+]
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit[    {      "id": "guid",      "fullName": "string",      "workingTime": "string",      "email": "string",      "phoneNumber": "string",      "specialization": "string",      "isActive": true,      "colorCode": "#RRGGBB"    }  ]   `
+---
 
-### GET /api/doctor/{id}
-
+### GET `/api/doctor/{id}`
 Retrieves details for a doctor by ID.
 
-### PATCH /api/doctor/{id}
+---
 
+### PATCH `/api/doctor/{id}`
 Updates a doctor's details.
 
-### DELETE /api/doctor/{id}
+---
 
+### DELETE `/api/doctor/{id}`
 Deletes a doctor by ID.
 
-### PATCH /api/doctor/changePassword
+---
 
+### PATCH `/api/doctor/changePassword`
 Doctor changes their password.
 
 **Request**
+```json
+{
+  "currentPassword": "string",
+  "newPassword": "string"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "currentPassword": "string",    "newPassword": "string"  }   `
+---
 
-### GET /api/doctor/search?name=...&phoneNumber=...
-
+### GET `/api/doctor/search?name=...&phoneNumber=...`
 Searches for doctors by name or phone number.
 
-### GET /api/doctor/filter?specialization=...
+---
 
+### GET `/api/doctor/filter?specialization=...`
 Filters doctors by specialization.
 
-💼 Treatment
-------------
+---
 
-### POST /api/treatment
+## 💼 Treatment
 
-Adds a new treatment. _(Admin only)_
+### POST `/api/treatment`
+Adds a new treatment. (Admin only)
 
 **Request**
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "name": "string",    "price": 0,    "category": "string"  }   `
+```json
+{
+  "name": "string",
+  "price": 0,
+  "category": "string"
+}
+```
 
 **Response**
+```json
+{
+  "treatmentId": "guid"
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "treatmentId": "guid"  }   `
+---
 
-### GET /api/treatment
-
+### GET `/api/treatment`
 Retrieves all treatments.
 
 **Response**
+```json
+[
+  {
+    "id": "guid",
+    "name": "string",
+    "category": "string"
+  }
+]
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit[    {      "id": "guid",      "name": "string",      "category": "string"    }  ]   `
+---
 
-### GET /api/treatment/{id}
-
+### GET `/api/treatment/{id}`
 Retrieves treatment details by ID.
 
-### PATCH /api/treatment/{id}
+---
 
+### PATCH `/api/treatment/{id}`
 Updates a treatment.
 
 **Request**
+```json
+{
+  "name": "string",
+  "category": "string",
+  "price": 0
+}
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   jsonCopyEdit{    "name": "string",    "category": "string",    "price": 0  }   `
+---
 
-### DELETE /api/treatment/{id}
-
+### DELETE `/api/treatment/{id}`
 Deletes a treatment.
 
-### GET /api/treatment/search?name=...
+---
 
+### GET `/api/treatment/search?name=...`
 Searches for treatments by name.
 
-### GET /api/treatment/filter?category=...&price=...
+---
 
+### GET `/api/treatment/filter?category=...&price=...`
 Filters treatments by category and/or price.
+
