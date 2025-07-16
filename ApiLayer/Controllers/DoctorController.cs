@@ -80,6 +80,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
             var result = await _mediator.Send(new GetAllDoctorsCommand(), cancellationToken);
             return Ok(result);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetDoctorDto>> GetDoctorById(Guid id)
         {

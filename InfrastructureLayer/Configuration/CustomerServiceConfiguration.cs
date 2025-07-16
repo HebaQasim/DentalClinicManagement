@@ -34,7 +34,19 @@ namespace DentalClinicManagement.InfrastructureLayer.Configuration
                    .WithMany(r => r.CustomerServices)
                    .HasForeignKey(cs => cs.RoleId)
                    .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete
+            builder.HasMany(cs => cs.Patients)
+                .WithOne(p => p.CustomerService)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasMany(cs => cs.Appointments)
+       .WithOne(a => a.CustomerService)
+       .HasForeignKey(a => a.CustomerServiceId)
+       .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(cs => cs.Payments)
+       .WithOne(pay => pay.CustomerService)
+       .HasForeignKey(pay => pay.CustomerServiceId)
+       .OnDelete(DeleteBehavior.Restrict);
 
 
         }

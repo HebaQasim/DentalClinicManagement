@@ -13,6 +13,20 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:3000", // local development frontend
+            "https://your-frontend.web.app" // deployed frontend (e.g. Firebase, Vercel, etc.)
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddControllers();
 
 // Add services to the container.
 
@@ -70,13 +84,16 @@ builder.Services.AddScoped<IUserContext, UserContext>();
 //Console.WriteLine("Hashed Password: " + hashedPassword);
 
 var app = builder.Build();
+app.UseCors("AllowFrontend");
+
+app.UseAuthorization();
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 

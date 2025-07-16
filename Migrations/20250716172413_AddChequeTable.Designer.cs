@@ -4,6 +4,7 @@ using DentalClinicManagement.InfrastructureLayer.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DentalClinicManagement.Migrations
 {
     [DbContext(typeof(DentalClinicDbContext))]
-    partial class DentalClinicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250716172413_AddChequeTable")]
+    partial class AddChequeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,30 +228,6 @@ namespace DentalClinicManagement.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Doctors", (string)null);
-                });
-
-            modelBuilder.Entity("DentalClinicManagement.DomainLayer.Entities.Insurance", b =>
-                {
-                    b.Property<Guid>("InsuranceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PaymentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Provider")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("InsuranceId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.ToTable("Insurances", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicManagement.DomainLayer.Entities.PasswordResetToken", b =>
@@ -505,17 +484,6 @@ namespace DentalClinicManagement.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DentalClinicManagement.DomainLayer.Entities.Insurance", b =>
-                {
-                    b.HasOne("DentalClinicManagement.DomainLayer.Entities.Payment", "Payment")
-                        .WithMany("Insurances")
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Payment");
-                });
-
             modelBuilder.Entity("DentalClinicManagement.DomainLayer.Entities.Patient", b =>
                 {
                     b.HasOne("DentalClinicManagement.DomainLayer.Entities.CustomerService", "CustomerService")
@@ -584,8 +552,6 @@ namespace DentalClinicManagement.Migrations
             modelBuilder.Entity("DentalClinicManagement.DomainLayer.Entities.Payment", b =>
                 {
                     b.Navigation("Cheques");
-
-                    b.Navigation("Insurances");
                 });
 
             modelBuilder.Entity("DentalClinicManagement.DomainLayer.Entities.Role", b =>

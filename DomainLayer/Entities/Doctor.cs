@@ -13,6 +13,8 @@
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
 
+        public ICollection<Patient> Patients { get; set; } = new List<Patient>();
+        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 
 
     }

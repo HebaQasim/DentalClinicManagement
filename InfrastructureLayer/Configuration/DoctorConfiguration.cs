@@ -1,6 +1,7 @@
 ﻿using DentalClinicManagement.DomainLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace DentalClinicManagement.InfrastructureLayer.Configuration
 {
@@ -37,12 +38,21 @@ namespace DentalClinicManagement.InfrastructureLayer.Configuration
             builder.Property(d => d.Specialization)
                    .IsRequired()
                    .HasMaxLength(100);
+            builder
+                 .HasMany(d => d.Patients)
+                 .WithMany(p => p.Doctors);
 
             // Relationship: Each Doctor has one Role (Many-to-One)
             builder.HasOne(d => d.Role)
                    .WithMany(r => r.Doctors)
                    .HasForeignKey(d => d.RoleId)
                    .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+
+            builder.HasMany(d => d.Appointments)
+       .WithOne(a => a.Doctor)
+       .HasForeignKey(a => a.DoctorId)
+       .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

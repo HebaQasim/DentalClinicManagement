@@ -16,6 +16,11 @@ namespace DentalClinicManagement.InfrastructureLayer.DbContexts
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
         public DbSet<Treatment> Treatments { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Cheque> Cheques { get; set; }
+        public DbSet<Insurance> Insurances { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
@@ -25,7 +30,11 @@ namespace DentalClinicManagement.InfrastructureLayer.DbContexts
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerServiceConfiguration());
             modelBuilder.ApplyConfiguration(new TreatmentConfiguration());
-
+            modelBuilder.ApplyConfiguration(new PatientConfiguration());
+            modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
+            modelBuilder.ApplyConfiguration(new ChequeConfiguration());
+            modelBuilder.ApplyConfiguration(new InsuranceConfiguration());
 
 
         }

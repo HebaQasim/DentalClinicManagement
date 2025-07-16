@@ -51,7 +51,7 @@ namespace DentalClinicManagement.ApiLayer.Controllers
             var result = await mediator.Send(new GetAllCustomerServicesCommand());
             return Ok(result);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetCustomerServiceDto>> GetSecretaryById(Guid id)
         {
